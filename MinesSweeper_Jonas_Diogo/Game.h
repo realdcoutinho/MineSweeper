@@ -6,16 +6,21 @@ std::string g_WindowTitle{ "Project name - Name, firstname - 1DAExx" };
 
 // Change the window dimensions here
 float g_WindowWidth{ 500 };
-float g_WindowHeight{ 300 };
+float g_WindowHeight{ 500 };
 #pragma endregion gameInformation
 
 
 
 #pragma region ownDeclarations
 // Declare your own global variables here
-
+Point2f g_Mouse{};
+const float g_Border{10.f};
+const float g_RectSize{32};
+Point2f g_RectPos{g_Border, g_Border};
+Rectf g_GridRect{ g_RectPos.x, g_RectPos.y, g_RectSize, g_RectSize };
+int g_pGrid[12]{};
 // Declare your own functions here
-
+void DrawGrid(const float rows, const float cols, int* pArray);
 #pragma endregion ownDeclarations
 
 #pragma region gameFunctions											

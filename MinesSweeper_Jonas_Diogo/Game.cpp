@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Game.h"
+#include <iostream>
 
 //Basic game functions
 #pragma region gameFunctions											
@@ -10,9 +11,10 @@ void Start()
 
 void Draw()
 {
-	ClearBackground();
-
-	// Put your own draw statements here
+	ClearBackground(0.5f, 0.5f, 0.5f);
+	SetColor(1, 0, 0);
+	DrawGrid(g_Border,g_Border, g_pGrid);
+	
 
 }
 
@@ -65,12 +67,28 @@ void OnKeyUpEvent(SDL_Keycode key)
 void OnMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
 	//std::cout << "  [" << e.x << ", " << e.y << "]\n";
-	//Point2f mousePos{ float( e.x ), float( g_WindowHeight - e.y ) };
+	Point2f mousePos{ float( e.x ), float( g_WindowHeight - e.y ) };
+	g_Mouse.x = float(e.x);
+	g_Mouse.y = g_WindowHeight - float(e.y);
+
 }
 
 void OnMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
-
+	switch (e.button)
+	{
+	case SDL_BUTTON_LEFT:
+	{
+		if (IsPointInRectangle(g_GridRect, g_Mouse))
+		{
+	
+			SetColor(0, 1, 0);
+		}
+	}
+		break;
+	default:
+		break;	
+	}
 }
 
 void OnMouseUpEvent(const SDL_MouseButtonEvent& e)
@@ -96,5 +114,32 @@ void OnMouseUpEvent(const SDL_MouseButtonEvent& e)
 
 #pragma region ownDefinitions
 // Define your own functions here
+void DrawGrid(const float rows, const float cols, int* pArray)
+{
+	for (int i{ 0 }; i < rows; ++i)
+	{
+		for (int j{ 0 }; j < cols; ++j)
+		{
+			FillRect(g_GridRect);
+			g_GridRect.left += g_RectSize + g_Border;
+			g_pGrid[j];
+			if (IsPointInRectangle(g_GridRect, g_Mouse))
+			{
+				std::cout << "overlapping" << std::endl;
+				SetColor(0, 1, 0);
+			}
+		}
+		g_GridRect.left = g_Border;
+		g_GridRect.bottom += g_RectSize + g_Border;
+		g_pGrid[i];
+		if (IsPointInRectangle(g_GridRect, g_Mouse))
+		{
+			std::cout << "overlapping" << std::endl;
+		}
+	}
+	g_GridRect.bottom = g_Border;
+
+}
+
 
 #pragma endregion ownDefinitions
