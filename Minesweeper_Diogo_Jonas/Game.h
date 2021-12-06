@@ -2,11 +2,11 @@
 using namespace utils;
 #pragma region gameInformation
 // Set your name and group in the title here
-std::string g_WindowTitle{ "Project name - Name, firstname - 1DAExx" };
+std::string g_WindowTitle{ "Minesweeper - Diogo, Jonas - 1DAE12 - 1DAE10" };
 
 // Change the window dimensions here
-float g_WindowWidth{ 500 };
-float g_WindowHeight{ 300 };
+float g_WindowWidth{ 320 };
+float g_WindowHeight{ 320 };
 #pragma endregion gameInformation
 
 
