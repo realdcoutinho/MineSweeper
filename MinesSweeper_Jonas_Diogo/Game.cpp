@@ -143,6 +143,8 @@ void DrawGrid(const float rows, const float cols, int* pArray)
 	{
 		for (int j{ 0 }; j < cols; ++j)
 		{
+			
+			//DrawTexture(g_tTiles[0])
 			FillRect(g_GridRect);
 			g_GridRect.left += g_RectSize + g_Border;
 			//g_pGrid[j];
