@@ -13,12 +13,16 @@ float g_WindowHeight{ 500 };
 
 #pragma region ownDeclarations
 // Declare your own global variables here
+Texture* g_tTiles{};
+unsigned int g_ArrayTextureSize{8};
+
 Point2f g_Mouse{};
 const float g_Border{10.f};
 const float g_RectSize{32};
 Point2f g_RectPos{g_Border, g_Border};
 Rectf g_GridRect{ g_RectPos.x, g_RectPos.y, g_RectSize, g_RectSize };
-int g_pGrid[12]{};
+
+int g_pGrid[100]{};
 // Declare your own functions here
 void DrawGrid(const float rows, const float cols, int* pArray);
 #pragma endregion ownDeclarations

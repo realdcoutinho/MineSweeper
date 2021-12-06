@@ -6,7 +6,34 @@
 #pragma region gameFunctions											
 void Start()
 {
-	// initialize game resources here
+	g_tTiles = new Texture[g_ArrayTextureSize];
+	bool success{};
+
+	success = TextureFromFile("Resources/0_TileZero.png", g_tTiles[0]);
+	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
+
+	success = TextureFromFile("Resources/1_TileOne.png", g_tTiles[1]);
+	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
+
+	success = TextureFromFile("Resources/2_TileTwo.png", g_tTiles[2]);
+	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
+
+	success = TextureFromFile("Resources/3_TileThree.png", g_tTiles[3]);
+	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
+
+	success = TextureFromFile("Resources/4_TileBacteria.png", g_tTiles[4]);
+	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
+
+	success = TextureFromFile("Resources/5_TileBacteriaPressed.png", g_tTiles[5]);
+	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
+
+	success = TextureFromFile("Resources/6_TileVaccine.png", g_tTiles[6]);
+	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
+
+	success = TextureFromFile("Resources/7_TileClear.png", g_tTiles[7]);
+	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
+
+	
 }
 
 void Draw()
@@ -36,8 +63,17 @@ void Update(float elapsedSec)
 
 void End()
 {
-	// free game resources here
+	for (int i{ 0 }; i < int(g_ArrayTextureSize - 1); ++i)
+	{
+		DeleteTexture(g_tTiles[i]);
+	}
+	
+	/*delete[] g_tTiles;
+	g_tTiles = nullptr;*/
+
+	delete g_tTiles;
 }
+	
 #pragma endregion gameFunctions
 
 //Keyboard and mouse input handling
@@ -75,20 +111,7 @@ void OnMouseMotionEvent(const SDL_MouseMotionEvent& e)
 
 void OnMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
-	switch (e.button)
-	{
-	case SDL_BUTTON_LEFT:
-	{
-		if (IsPointInRectangle(g_GridRect, g_Mouse))
-		{
-	
-			SetColor(0, 1, 0);
-		}
-	}
-		break;
-	default:
-		break;	
-	}
+
 }
 
 void OnMouseUpEvent(const SDL_MouseButtonEvent& e)
@@ -122,7 +145,7 @@ void DrawGrid(const float rows, const float cols, int* pArray)
 		{
 			FillRect(g_GridRect);
 			g_GridRect.left += g_RectSize + g_Border;
-			g_pGrid[j];
+			//g_pGrid[j];
 			if (IsPointInRectangle(g_GridRect, g_Mouse))
 			{
 				std::cout << "overlapping" << std::endl;
@@ -131,7 +154,7 @@ void DrawGrid(const float rows, const float cols, int* pArray)
 		}
 		g_GridRect.left = g_Border;
 		g_GridRect.bottom += g_RectSize + g_Border;
-		g_pGrid[i];
+		//g_pGrid[i];
 		if (IsPointInRectangle(g_GridRect, g_Mouse))
 		{
 			std::cout << "overlapping" << std::endl;
