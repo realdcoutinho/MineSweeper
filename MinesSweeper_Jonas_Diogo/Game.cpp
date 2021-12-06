@@ -39,9 +39,12 @@ void Start()
 void Draw()
 {
 	ClearBackground(0.5f, 0.5f, 0.5f);
-	SetColor(1, 0, 0);
-	DrawGrid(g_Border,g_Border, g_pGrid);
-	
+	//SetColor(g_Red);
+	//DrawRect(g_BorderRect);
+	//DrawRect(g_PlayRect);
+	//SetColor(1, 0, 0);
+	//DrawGrid(g_Border,g_Border, g_pGrid);
+	DrawGrid();
 
 }
 
@@ -111,7 +114,8 @@ void OnMouseMotionEvent(const SDL_MouseMotionEvent& e)
 
 void OnMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
-
+	ToggleCell(g_Mouse);
+	std::cout << "Hello" << '\n';
 }
 
 void OnMouseUpEvent(const SDL_MouseButtonEvent& e)
@@ -135,27 +139,90 @@ void OnMouseUpEvent(const SDL_MouseButtonEvent& e)
 }
 #pragma endregion inputHandling
 
+
+
+
 #pragma region ownDefinitions
 // Define your own functions here
-void DrawGrid(const float rows, const float cols, int* pArray)
+void ToggleCell(Point2f MousePoint)
 {
-	for (int i{ 0 }; i < rows; ++i)
+	for (int row{ 0 }; row < g_Rows; row++)
+	{
+		for (int column{ 0 }; column < g_Colums; column++)
+		{
+			int index{ GetIndex(row, column, g_Colums) };
+			Rectf gridMine{ g_GridRect.left + (g_MineSize * column), g_GridRect.bottom + (g_MineSize * row), g_MineSize, g_MineSize };
+			if (IsPointInRectangle(gridMine, g_Mouse))
+			{
+				g_pGrid[index] = !g_pGrid[index];
+				return;
+			}
+		}
+	}
+}
+
+
+void DrawGrid()
+{
+	for (int row{ 0 }; row < g_Rows; row++)
+	{
+		for (int column{ 0 }; column < g_Colums; column++)
+		{
+			Point2f bottomLeft{ g_GridRect.left + (column * g_MineSize), g_GridRect.bottom + (row * g_MineSize) };
+			int index{ GetIndex(row, column, g_Colums) };
+			SetColor(g_Grey);
+			if (g_pGrid[index])
+				SetColor(g_Green);
+			FillRect(bottomLeft, g_MineSize, g_MineSize);
+			SetColor(g_White);
+			DrawRect(bottomLeft, g_MineSize, g_MineSize);
+		}
+
+	}
+}
+
+int GetIndex(int rowIndex, int columnIndex, int nrOfColumns)
+{
+	return rowIndex * nrOfColumns + columnIndex;
+}
+
+
+
+//void DrawGrid(const float rows, const float cols, int* pArray)
+//{
+	//const Color4f toggleOn{ g_Orange };
+	//const Color4f toggleOff{ g_Grey };
+
+
+
+
+
+
+
+
+
+
+	/*
+		for (int i{0}; i < rows; ++i)
 	{
 		for (int j{ 0 }; j < cols; ++j)
 		{
 			
-			//DrawTexture(g_tTiles[0])
+			//DrawTexture(g_tTiles[0]);
+			DrawRect(g_GridRect);
+			SetColor(g_Red);
 			FillRect(g_GridRect);
-			g_GridRect.left += g_RectSize + g_Border;
+			SetColor(g_Blue);
+			
+			g_GridRect.left += g_RectSize;
 			//g_pGrid[j];
 			if (IsPointInRectangle(g_GridRect, g_Mouse))
 			{
 				std::cout << "overlapping" << std::endl;
-				SetColor(0, 1, 0);
 			}
 		}
 		g_GridRect.left = g_Border;
-		g_GridRect.bottom += g_RectSize + g_Border;
+		g_GridRect.bottom += g_RectSize;
 		//g_pGrid[i];
 		if (IsPointInRectangle(g_GridRect, g_Mouse))
 		{
@@ -163,8 +230,7 @@ void DrawGrid(const float rows, const float cols, int* pArray)
 		}
 	}
 	g_GridRect.bottom = g_Border;
-
-}
-
+	*/	
+//
 
 #pragma endregion ownDefinitions
