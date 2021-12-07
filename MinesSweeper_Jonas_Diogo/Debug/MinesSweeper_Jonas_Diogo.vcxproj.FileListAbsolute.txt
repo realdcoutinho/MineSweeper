@@ -1,3 +1,3 @@
 C:\Users\vanco\OneDrive\Documenten\GitHub\MineSweeper\MinesSweeper_Jonas_Diogo\Debug\MinesSweeper_Jonas_Diogo.exe
-C:\Users\diogo\Documents\GitHub\MineSweeper\MinesSweeper_Jonas_Diogo\Debug\MinesSweeper_Jonas_Diogo.exe
 C:\Users\diogo\Documents\DAE- 1st Semester\_Programming 01\Labs\Labs week 9\MinesSweeper_Jonas_Diogo\Debug\MinesSweeper_Jonas_Diogo.exe
+C:\Users\diogo\Documents\GitHub\MineSweeper\MinesSweeper_Jonas_Diogo\Debug\MinesSweeper_Jonas_Diogo.exe

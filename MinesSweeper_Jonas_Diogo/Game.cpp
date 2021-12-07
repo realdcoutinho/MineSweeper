@@ -17,6 +17,7 @@ void Draw()
 	ClearBackground(0.5f, 0.5f, 0.5f);
 	DrawGrid();
 	AddingTimeTexture();
+	std::cout << "Test" << '\n';
 }
 
 void Update(float elapsedSec)
