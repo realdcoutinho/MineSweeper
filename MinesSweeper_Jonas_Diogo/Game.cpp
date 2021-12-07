@@ -1,11 +1,24 @@
 #include "pch.h"
 #include "Game.h"
 #include <iostream>
+#include <iomanip>
+
 
 //Basic game functions
 #pragma region gameFunctions											
 void Start()
 {
+	AddingTextures();
+	/*
+		bool tileClear = TextureFromFile("Resources/00_TileClear.png", g_00TileClear);
+	if (!tileClear)
+	{
+		std::cout << "Loading failed";
+	}
+	
+	*/
+	/*
+	
 	g_tTiles = new Texture[g_ArrayTextureSize];
 	bool success{};
 
@@ -32,47 +45,41 @@ void Start()
 
 	success = TextureFromFile("Resources/7_TileClear.png", g_tTiles[7]);
 	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
-
+	*/
 	
 }
 
 void Draw()
 {
 	ClearBackground(0.5f, 0.5f, 0.5f);
-	//SetColor(g_Red);
-	//DrawRect(g_BorderRect);
-	//DrawRect(g_PlayRect);
 	//SetColor(1, 0, 0);
 	//DrawGrid(g_Border,g_Border, g_pGrid);
 	DrawGrid();
-
+	AddingTimeTexture();
 }
 
 void Update(float elapsedSec)
 {
-	// process input, do physics 
-
-	// e.g. Check keyboard state
-	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-	//if ( pStates[SDL_SCANCODE_RIGHT] )
-	//{
-	//	std::cout << "Right arrow key is down\n";
-	//}
-	//if ( pStates[SDL_SCANCODE_LEFT] && pStates[SDL_SCANCODE_UP])
-	//{
-	//	std::cout << "Left and up arrow keys are down\n";
-	//}
+	g_TimeSeconds += elapsedSec;
 }
 
 void End()
 {
+	for (int j{}; j < 12 - 1; j++) {
+		DeleteTexture(g_TileTextures[j]);
+	}
+	for (int k{}; k < 10 - 1; k++) {
+		DeleteTexture(g_TextTexture[k]);
+
+	}
+
 	for (int i{ 0 }; i < int(g_ArrayTextureSize - 1); ++i)
 	{
 		DeleteTexture(g_tTiles[i]);
 	}
 	
-	/*delete[] g_tTiles;
-	g_tTiles = nullptr;*/
+	delete[] g_tTiles;
+	g_tTiles = nullptr;
 
 	delete g_tTiles;
 }
@@ -107,35 +114,50 @@ void OnMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
 	//std::cout << "  [" << e.x << ", " << e.y << "]\n";
 	Point2f mousePos{ float( e.x ), float( g_WindowHeight - e.y ) };
-	g_Mouse.x = float(e.x);
-	g_Mouse.y = g_WindowHeight - float(e.y);
+	g_Mouse = mousePos; // Set Mouse Position
 
 }
 
 void OnMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
-	ToggleCell(g_Mouse);
-	std::cout << "Hello" << '\n';
+	ClickTile(g_Mouse); // adds mouse position
+	//Its not working in the switche bellow
+
+	switch (e.button)
+	{
+	case SDL_BUTTON_LEFT:
+	{
+		break;
+	}
+	case SDL_BUTTON_RIGHT:
+	{
+		std::cout << "  [" << e.x << ", " << e.y << "]\n";
+		break;
+	}
+	case SDL_BUTTON_MIDDLE:
+
+		break;
+	}
 }
 
 void OnMouseUpEvent(const SDL_MouseButtonEvent& e)
 {
-	////std::cout << "  [" << e.x << ", " << e.y << "]\n";
-	//switch (e.button)
-	//{
-	//case SDL_BUTTON_LEFT:
-	//{
-	//	//std::cout << "Left mouse button released\n";
-	//	//Point2f mousePos{ float( e.x ), float( g_WindowHeight - e.y ) };
-	//	break;
-	//}
-	//case SDL_BUTTON_RIGHT:
-	//	//std::cout << "Right mouse button released\n";
-	//	break;
-	//case SDL_BUTTON_MIDDLE:
-	//	//std::cout << "Middle mouse button released\n";
-	//	break;
-	//}
+	
+	////switch (e.button)
+	////{
+	////case SDL_BUTTON_LEFT:
+	////{
+	////	//std::cout << "Left mouse button released\n";
+	////	//Point2f mousePos{ float( e.x ), float( g_WindowHeight - e.y ) };
+	////	break;
+	////}
+	////case SDL_BUTTON_RIGHT:
+	////	//std::cout << "Right mouse button released\n";
+	////	break;
+	////case SDL_BUTTON_MIDDLE:
+	////	//std::cout << "Middle mouse button released\n";
+	////	break;
+	////}
 }
 #pragma endregion inputHandling
 
@@ -144,15 +166,101 @@ void OnMouseUpEvent(const SDL_MouseButtonEvent& e)
 
 #pragma region ownDefinitions
 // Define your own functions here
-void ToggleCell(Point2f MousePoint)
+
+//adds the time texture and call the draw function
+void AddingTimeTexture()
+{
+	const std::string time{ std::to_string(g_TimeSeconds) }; // transforms the float variable into a string and passes it into another const string
+	Point2f positionTime{ g_GridWidth - g_Border - 120, g_GridHeight + 15 }; // Position of the Time
+	bool tile = TextureFromString(time, "Resources/Hospital.ttf", 55, Color4f{ g_Red }, g_TextTexture[0]);
+	if (!tile)
+	{
+		std::cout << "Loading failed";
+	}
+	
+	std::cout << time << '\n';
+	DrawTimeTexture(g_TextTexture, positionTime, 0);
+}
+
+//Draws Time on the visuals
+void DrawTimeTexture(Texture *pArray, Point2f point, int idx)
+{
+	DrawTexture(pArray[idx], point);
+}
+
+//adds all the visual textures
+void AddingTextures() // adds all the visual textures
+{
+	bool tile = TextureFromFile("Resources/0_Tile.png", g_TileTextures[0]);
+	if (!tile)
+	{
+		std::cout << "Loading failed";
+	}
+	tile = TextureFromFile("Resources/1_ClearTile.png", g_TileTextures[1]);
+	if (!tile)
+	{
+		std::cout << "Loading failed";
+	}
+	tile = TextureFromFile("Resources/2_ClearTileOne.png", g_TileTextures[2]);
+	if (!tile)
+	{
+		std::cout << "Loading failed";
+	}
+	tile = TextureFromFile("Resources/3_ClearTileTwo.png", g_TileTextures[3]);
+	if (!tile)
+	{
+		std::cout << "Loading failed";
+	}
+	tile = TextureFromFile("Resources/4_ClearTileThree.png", g_TileTextures[4]);
+	if (!tile)
+	{
+		std::cout << "Loading failed";
+	}
+	tile = TextureFromFile("Resources/5_FlagTile.png", g_TileTextures[5]);
+	if (!tile)
+	{
+		std::cout << "Loading failed";
+	}
+	tile = TextureFromFile("Resources/6_MineTilePressed.png", g_TileTextures[6]);
+	if (!tile)
+	{
+		std::cout << "Loading failed";
+	}
+	tile = TextureFromFile("Resources/7_LostTile.png", g_TileTextures[7]);
+	if (!tile)
+	{
+		std::cout << "Loading failed";
+	}
+	tile = TextureFromFile("Resources/8_RestartTile.png", g_TileTextures[8]);
+	if (!tile)
+	{
+		std::cout << "Loading failed";
+	}
+	tile = TextureFromFile("Resources/9_RestartTilePressed.png", g_TileTextures[9]);
+	if (!tile)
+	{
+		std::cout << "Loading failed";
+	}
+} // adds all the visual textures
+
+
+
+
+void ClickTile(Point2f MousePoint)
 {
 	for (int row{ 0 }; row < g_Rows; row++)
 	{
 		for (int column{ 0 }; column < g_Colums; column++)
 		{
+			//DO NOT DELETE THIS LINES
+			//Rectf gridTile{ g_GridPos.x + (g_TileSize * column), g_GridPos.y + (g_TileSize * row), g_TileSize, g_TileSize };
+			float width{ column * g_TileSize }; // Distance of the next tile horizontally from the intial grid position
+			float height{ row * g_TileSize }; // Distance of the next tile vertically from the intial grid position
+			float textureLenght{ g_TileTextures[0].width / g_Scale }; // lenght of each tile
+			Point2f tileXY{ g_GridPos.x + width, g_GridPos.y + height }; //bottomleft Point of each individual tile
+			Rectf zeroMine{ tileXY.x, tileXY.y, textureLenght , textureLenght }; //Rect of each individual tile
 			int index{ GetIndex(row, column, g_Colums) };
-			Rectf gridMine{ g_GridRect.left + (g_MineSize * column), g_GridRect.bottom + (g_MineSize * row), g_MineSize, g_MineSize };
-			if (IsPointInRectangle(gridMine, g_Mouse))
+			if (IsPointInRectangle(zeroMine, g_Mouse))
 			{
 				g_pGrid[index] = !g_pGrid[index];
 				return;
@@ -161,23 +269,26 @@ void ToggleCell(Point2f MousePoint)
 	}
 }
 
-
 void DrawGrid()
 {
+	
 	for (int row{ 0 }; row < g_Rows; row++)
 	{
 		for (int column{ 0 }; column < g_Colums; column++)
 		{
-			Point2f bottomLeft{ g_GridRect.left + (column * g_MineSize), g_GridRect.bottom + (row * g_MineSize) };
-			int index{ GetIndex(row, column, g_Colums) };
-			SetColor(g_Grey);
-			if (g_pGrid[index])
-				SetColor(g_Green);
-			FillRect(bottomLeft, g_MineSize, g_MineSize);
-			SetColor(g_White);
-			DrawRect(bottomLeft, g_MineSize, g_MineSize);
+			float width{ column * g_TileSize }; // Distance of the next tile horizontally from the intial grid position
+			float height{ row * g_TileSize }; // Distance of the next tile vertically from the intial grid position
+			float textureLenght{ g_TileTextures[0].width / g_Scale }; // lenght of each tile
+			Point2f tileXY{ g_GridPos.x + width, g_GridPos.y + height }; //bottomleft Point of each individual tile
+			Rectf zeroMine{ tileXY.x, tileXY.y, textureLenght , textureLenght }; //Rect of each individual tile
+			int index{ GetIndex(row, column, g_Colums) }; // gets the tile index
+			if (!g_pGrid[index]){
+				DrawTexture(g_TileTextures[0], zeroMine); // if its not clicked, stays as original, Tile 0
+			}
+			else if (g_pGrid[index]) {
+				DrawTexture(g_TileTextures[1], zeroMine); // if it is clicked Draws this texture. Here we have to implemente a function to check if the tile pressed was a bom or otherwise to change texture based on it
+			}
 		}
-
 	}
 }
 
@@ -192,15 +303,6 @@ int GetIndex(int rowIndex, int columnIndex, int nrOfColumns)
 //{
 	//const Color4f toggleOn{ g_Orange };
 	//const Color4f toggleOff{ g_Grey };
-
-
-
-
-
-
-
-
-
 
 	/*
 		for (int i{0}; i < rows; ++i)

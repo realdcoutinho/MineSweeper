@@ -2,29 +2,39 @@
 using namespace utils;
 #pragma region gameInformation
 // Set your name and group in the title here
-std::string g_WindowTitle{ "Project name - Name, firstname - 1DAExx" };
+std::string g_WindowTitle{ "MineSweeper - Name, firstname - 1DAExx" };
 
 
+//important measures before seating the window size
+const float g_Border{ 10.f }; // border measure around the window
+const float g_TileSize{ 32 }; // size of each tile
+const int g_Rows{ 15 }; // Nr of rows
+const int g_Colums{ 15 }; // Nr of Colums
+const int g_ArraySize{ g_Rows * g_Colums }; //Size of the Grid
+const float g_GridWidth{ (g_Colums * g_TileSize) + g_Border * 2 }; //width of the play area
+const float g_GridHeight{ (g_Rows * g_TileSize) + g_Border * 2 }; // height of the play area
+const float g_HeaderHeight{ g_Border + g_TileSize * 3 }; // Height for the header
 
-
-const float g_Border{ 10.f };
-const float g_MineSize{ 32 };
-const int g_Rows{ 10 };
-const int g_Colums{ 10 };
-const int g_ArraySize{ g_Rows * g_Colums };
-const float g_PlaySizeWidth{ (g_Colums * g_MineSize) + g_Border * 2 };
-const float g_PlaySizeHeight{ (g_Rows * g_MineSize) + g_Border * 2 };
-const float g_HeaderHeight{ g_Border + 60 };
 // Change the window dimensions here
-float g_WindowWidth{ g_PlaySizeWidth };
-float g_WindowHeight{ g_PlaySizeHeight + g_HeaderHeight};
+float g_WindowWidth{ g_GridWidth };
+float g_WindowHeight{ g_GridHeight + g_HeaderHeight};
 #pragma endregion gameInformation
 
 
 
 #pragma region ownDeclarations
 // Declare your own global variables here
+
+//Texture
+const float g_PNGTextureSize{ 256 }; // size of the textures 256 x 256 pixels
+const float g_Scale{ g_PNGTextureSize / g_TileSize }; // the scale by which the textures will have to be reduced
 Texture* g_tTiles{};
+float g_TimeSeconds{}; //times in seconds, failed to implement as of this moment. However I changed my mind and prefer to have the time with 2 floating points
+
+//std::strings
+std::string g_Time{}; // string time to be printed
+
+//
 unsigned int g_ArrayTextureSize{8};
 
 //Colors
@@ -34,27 +44,29 @@ Color4f g_Red(1, 0, 0, 1);
 Color4f g_Green(0, 1, 0, 1);
 Color4f g_Blue(0, 0, 1, 1);
 
-
+//Mouse Point
 Point2f g_Mouse{};
 
+//Rects
+Point2f g_GridPos{g_Border, g_Border};
+Rectf g_GridRect{ g_GridPos.x, g_GridPos.y, g_TileSize, g_TileSize };
 
-
-Rectf g_PlayRect{ g_Border, g_Border, g_WindowWidth - g_Border * 2, g_WindowHeight - g_WindowHeight / 5 };
-Rectf g_BorderRect{ g_Border, g_Border, g_WindowWidth - g_Border * 2, g_WindowHeight - g_Border * 2 };
-
-
-
-
-
-
-Point2f g_RectPos{g_Border, g_Border};
-Rectf g_GridRect{ g_RectPos.x, g_RectPos.y, g_MineSize, g_MineSize };
-
+//Arrays
 int g_pGrid[g_ArraySize]{};
+Texture g_TileTextures[12]{}; // the size of this array is a random one. 12 doesnt mean anything, just trying to test
+Texture g_TextTexture[10]{}; //Arrau for the text textures. the size was completily random. just a test
+
 // Declare your own functions here
-void ToggleCell(Point2f MousePoint);
-void DrawGrid();
-int GetIndex(int rowIndex, int columnIndex, int nrOfColumns);
+void AddingTimeTexture();// Creates the time texture
+void DrawTimeTexture(Texture* pArray, Point2f point, int idx); // Draws the Time texture
+
+void AddingTextures();// Creates the visual textures
+
+
+
+void ClickTile(Point2f MousePoint); // checks which Tile was pressed
+void DrawGrid(); //Draws the Tiles Including the pressed ones
+int GetIndex(int rowIndex, int columnIndex, int nrOfColumns); // gets the index for the tile position
 //void DrawGrid(const float rows, const float cols, int* pArray);
 #pragma endregion ownDeclarations
 
