@@ -24,6 +24,7 @@ float g_WindowHeight{ g_GridHeight + g_HeaderHeight};
 
 #pragma region ownDeclarations
 // Declare your own global variables here
+bool g_IsVaccine{};
 
 const int g_nrBombs{ 10 };
 

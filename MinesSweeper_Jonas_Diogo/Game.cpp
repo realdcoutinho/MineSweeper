@@ -9,51 +9,12 @@
 void Start()
 {
 	AddingTextures();
-	/*
-		bool tileClear = TextureFromFile("Resources/00_TileClear.png", g_00TileClear);
-	if (!tileClear)
-	{
-		std::cout << "Loading failed";
-	}
-	
-	*/
-	/*
-	
-	g_tTiles = new Texture[g_ArrayTextureSize];
-	bool success{};
-
-	success = TextureFromFile("Resources/0_TileZero.png", g_tTiles[0]);
-	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
-
-	success = TextureFromFile("Resources/1_TileOne.png", g_tTiles[1]);
-	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
-
-	success = TextureFromFile("Resources/2_TileTwo.png", g_tTiles[2]);
-	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
-
-	success = TextureFromFile("Resources/3_TileThree.png", g_tTiles[3]);
-	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
-
-	success = TextureFromFile("Resources/4_TileBacteria.png", g_tTiles[4]);
-	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
-
-	success = TextureFromFile("Resources/5_TileBacteriaPressed.png", g_tTiles[5]);
-	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
-
-	success = TextureFromFile("Resources/6_TileVaccine.png", g_tTiles[6]);
-	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
-
-	success = TextureFromFile("Resources/7_TileClear.png", g_tTiles[7]);
-	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
-	*/
 	BombPosition();
 }
 
 void Draw()
 {
 	ClearBackground(0.5f, 0.5f, 0.5f);
-	//SetColor(1, 0, 0);
-	//DrawGrid(g_Border,g_Border, g_pGrid);
 	DrawGrid();
 	AddingTimeTexture();
 }
@@ -120,18 +81,22 @@ void OnMouseMotionEvent(const SDL_MouseMotionEvent& e)
 
 void OnMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
-	ClickTile(g_Mouse); // adds mouse position
 	//Its not working in the switche bellow
 
 	switch (e.button)
 	{
 	case SDL_BUTTON_LEFT:
 	{
+		g_IsVaccine = false;
+		ClickTile(g_Mouse); // adds mouse position
+
 		break;
 	}
 	case SDL_BUTTON_RIGHT:
 	{
-		std::cout << "  [" << e.x << ", " << e.y << "]\n";
+		g_IsVaccine = true;
+		ClickTile(g_Mouse); // adds mouse position
+		//std::cout << "  [" << e.x << ", " << e.y << "]\n";
 		break;
 	}
 	case SDL_BUTTON_MIDDLE:
@@ -293,7 +258,9 @@ void DrawGrid()
 			}
 			else if (g_pGrid[index]) {
 					if (g_pGrid[index] != g_BombPositionArray[index]) {
+
 						DrawTexture(g_TileTextures[1], zeroMine);
+
 					}
 					else if(g_pGrid[index] == g_BombPositionArray[index]){
 						DrawTexture(g_TileTextures[6], zeroMine); // if it is clicked Draws this texture. Here we have to implemente a function to check if the tile pressed was a bom or otherwise to change texture based on it
@@ -315,7 +282,8 @@ void DrawBom()
 
 }
 
-void BombPosition() {
+void BombPosition() 
+{
 
 	for (int i{}; i < g_nrBombs - 1; ++i) {
 		g_BombPositionArray[i] = rand() % (g_ArraySize - 1);
@@ -323,47 +291,14 @@ void BombPosition() {
 	PrintArray(g_BombPositionArray, g_nrBombs);
 }
 
-void PrintArray(int* pArray, int size) {
+void PrintArray(int* pArray, int size) 
+{
 
 	for (int i{ 0 }; i < size; ++i) std::cout << pArray[i] << ' ';
 	std::cout << '\n';
 }
 
 
-//void DrawGrid(const float rows, const float cols, int* pArray)
-//{
-	//const Color4f toggleOn{ g_Orange };
-	//const Color4f toggleOff{ g_Grey };
 
-	/*
-		for (int i{0}; i < rows; ++i)
-	{
-		for (int j{ 0 }; j < cols; ++j)
-		{
-			
-			//DrawTexture(g_tTiles[0]);
-			DrawRect(g_GridRect);
-			SetColor(g_Red);
-			FillRect(g_GridRect);
-			SetColor(g_Blue);
-			
-			g_GridRect.left += g_RectSize;
-			//g_pGrid[j];
-			if (IsPointInRectangle(g_GridRect, g_Mouse))
-			{
-				std::cout << "overlapping" << std::endl;
-			}
-		}
-		g_GridRect.left = g_Border;
-		g_GridRect.bottom += g_RectSize;
-		//g_pGrid[i];
-		if (IsPointInRectangle(g_GridRect, g_Mouse))
-		{
-			std::cout << "overlapping" << std::endl;
-		}
-	}
-	g_GridRect.bottom = g_Border;
-	*/	
-//
 
 #pragma endregion ownDefinitions
