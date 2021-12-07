@@ -56,6 +56,7 @@ void Draw()
 	//DrawGrid(g_Border,g_Border, g_pGrid);
 	DrawGrid();
 	AddingTimeTexture();
+	std::cout << "Test" << '\n';
 }
 
 void Update(float elapsedSec)
