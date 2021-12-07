@@ -46,7 +46,7 @@ void Start()
 	success = TextureFromFile("Resources/7_TileClear.png", g_tTiles[7]);
 	if (!success) std::cout << "0_TileZero.png failed." << std::endl;
 	*/
-	
+	BombPosition();
 }
 
 void Draw()
@@ -178,7 +178,7 @@ void AddingTimeTexture()
 		std::cout << "Loading failed";
 	}
 	
-	std::cout << time << '\n';
+	//std::cout << time << '\n';
 	DrawTimeTexture(g_TextTexture, positionTime, 0);
 }
 
@@ -263,6 +263,12 @@ void ClickTile(Point2f MousePoint)
 			if (IsPointInRectangle(zeroMine, g_Mouse))
 			{
 				g_pGrid[index] = !g_pGrid[index];
+
+				if (!g_pGrid[index]) { // Does allow the same tile to be selected again
+					g_pGrid[index] = !g_pGrid[index];
+				}
+				std::cout << index << " Value: " << g_pGrid[index] << '\n';
+
 				return;
 			}
 		}
@@ -286,7 +292,12 @@ void DrawGrid()
 				DrawTexture(g_TileTextures[0], zeroMine); // if its not clicked, stays as original, Tile 0
 			}
 			else if (g_pGrid[index]) {
-				DrawTexture(g_TileTextures[1], zeroMine); // if it is clicked Draws this texture. Here we have to implemente a function to check if the tile pressed was a bom or otherwise to change texture based on it
+					if (g_pGrid[index] != g_BombPositionArray[index]) {
+						DrawTexture(g_TileTextures[1], zeroMine);
+					}
+					else if(g_pGrid[index] == g_BombPositionArray[index]){
+						DrawTexture(g_TileTextures[6], zeroMine); // if it is clicked Draws this texture. Here we have to implemente a function to check if the tile pressed was a bom or otherwise to change texture based on it
+					}
 			}
 		}
 	}
@@ -297,6 +308,26 @@ int GetIndex(int rowIndex, int columnIndex, int nrOfColumns)
 	return rowIndex * nrOfColumns + columnIndex;
 }
 
+
+void DrawBom() 
+{
+
+
+}
+
+void BombPosition() {
+
+	for (int i{}; i < g_nrBombs - 1; ++i) {
+		g_BombPositionArray[i] = rand() % (g_ArraySize - 1);
+	}
+	PrintArray(g_BombPositionArray, g_nrBombs);
+}
+
+void PrintArray(int* pArray, int size) {
+
+	for (int i{ 0 }; i < size; ++i) std::cout << pArray[i] << ' ';
+	std::cout << '\n';
+}
 
 
 //void DrawGrid(const float rows, const float cols, int* pArray)
