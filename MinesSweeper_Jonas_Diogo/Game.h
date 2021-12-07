@@ -25,6 +25,8 @@ float g_WindowHeight{ g_GridHeight + g_HeaderHeight};
 #pragma region ownDeclarations
 // Declare your own global variables here
 
+const int g_nrBombs{ 10 };
+
 //Texture
 const float g_PNGTextureSize{ 256 }; // size of the textures 256 x 256 pixels
 const float g_Scale{ g_PNGTextureSize / g_TileSize }; // the scale by which the textures will have to be reduced
@@ -55,12 +57,18 @@ Rectf g_GridRect{ g_GridPos.x, g_GridPos.y, g_TileSize, g_TileSize };
 int g_pGrid[g_ArraySize]{};
 Texture g_TileTextures[12]{}; // the size of this array is a random one. 12 doesnt mean anything, just trying to test
 Texture g_TextTexture[10]{}; //Arrau for the text textures. the size was completily random. just a test
+int g_BombPositionArray[g_nrBombs]{};
 
 // Declare your own functions here
 void AddingTimeTexture();// Creates the time texture
 void DrawTimeTexture(Texture* pArray, Point2f point, int idx); // Draws the Time texture
 
 void AddingTextures();// Creates the visual textures
+
+void BombPosition();
+void DrawBom();
+
+void PrintArray(int* pArray, int size);
 
 
 
