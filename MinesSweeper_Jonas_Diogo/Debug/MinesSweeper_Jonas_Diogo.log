@@ -1,10 +1,7 @@
-﻿  pch.cpp
-  Core.cpp
+﻿  Core.cpp
   Game.cpp
-  main.cpp
-  structs.cpp
-  utils.cpp
   Generating Code...
+  LINK : C:\Users\vanco\OneDrive\Documenten\GitHub\MineSweeper\MinesSweeper_Jonas_Diogo\Debug\MinesSweeper_Jonas_Diogo.exe not found or not built by the last incremental link; performing full link
   MinesSweeper_Jonas_Diogo.vcxproj -> C:\Users\vanco\OneDrive\Documenten\GitHub\MineSweeper\MinesSweeper_Jonas_Diogo\Debug\MinesSweeper_Jonas_Diogo.exe
   COPY THE DLL FILES
   0 File(s) copied
