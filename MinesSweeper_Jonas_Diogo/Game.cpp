@@ -56,7 +56,6 @@ void Draw()
 	//DrawGrid(g_Border,g_Border, g_pGrid);
 	DrawGrid();
 	AddingTimeTexture();
-	std::cout << "Test" << '\n';
 }
 
 void Update(float elapsedSec)
@@ -121,7 +120,7 @@ void OnMouseMotionEvent(const SDL_MouseMotionEvent& e)
 
 void OnMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
-	ClickTile(g_Mouse); // adds mouse position
+	ClickTile(g_Mouse, g_Grid); // adds mouse position
 	//Its not working in the switche bellow
 
 	switch (e.button)
@@ -244,33 +243,54 @@ void AddingTextures() // adds all the visual textures
 	}
 } // adds all the visual textures
 
+/*
+void CheckPosition(int row, int column, int* pArray, Point2f mouse)
+{
+	for (int rows{ 0 }; rows < g_Rows; rows++)
+	{
+		for (int columns{ 0 }; columns < g_Colums; columns++)
+		{
+			float width{ columns * g_TileSize }; // Distance of the next tile horizontally from the intial grid position
+			float height{ rows * g_TileSize }; // Distance of the next tile vertically from the intial grid position
+			float textureLenght{ g_TileTextures[0].width / g_Scale }; // lenght of each tile
+			Point2f tileXY{ g_GridPos.x + width, g_GridPos.y + height }; //bottomleft Point of each individual tile
+			Rectf tileRect{ tileXY.x, tileXY.y, textureLenght , textureLenght }; //Rect of each individual tile
+			int index{ GetIndex(rows, columns, g_Colums) };
 
+			if (IsPointInRectangle(tileRect, mouse))
+			{
+				g_Grid[index] = !g_Grid[index];
+			}
+			std::cout << index << " Value: " << g_Grid[index] << '\n';
 
+			return;
+		}
+	}
+}
+*/
 
-void ClickTile(Point2f MousePoint)
+void ClickTile(Point2f MousePoint, int* pArray)
 {
 	for (int row{ 0 }; row < g_Rows; row++)
 	{
 		for (int column{ 0 }; column < g_Colums; column++)
 		{
-			//DO NOT DELETE THIS LINES
-			//Rectf gridTile{ g_GridPos.x + (g_TileSize * column), g_GridPos.y + (g_TileSize * row), g_TileSize, g_TileSize };
 			float width{ column * g_TileSize }; // Distance of the next tile horizontally from the intial grid position
 			float height{ row * g_TileSize }; // Distance of the next tile vertically from the intial grid position
 			float textureLenght{ g_TileTextures[0].width / g_Scale }; // lenght of each tile
 			Point2f tileXY{ g_GridPos.x + width, g_GridPos.y + height }; //bottomleft Point of each individual tile
 			Rectf zeroMine{ tileXY.x, tileXY.y, textureLenght , textureLenght }; //Rect of each individual tile
 			int index{ GetIndex(row, column, g_Colums) };
-			if (IsPointInRectangle(zeroMine, g_Mouse))
+
+			if (IsPointInRectangle(zeroMine, MousePoint))
 			{
-				g_pGrid[index] = !g_pGrid[index];
-
-				if (!g_pGrid[index]) { // Does allow the same tile to be selected again
-					g_pGrid[index] = !g_pGrid[index];
+				pArray[index] = !pArray[index];
+				/*
+								if (!pArray[index]) { // Does allow the same tile to be selected again
+					pArray[index] = !pArray[index];
 				}
-				std::cout << index << " Value: " << g_pGrid[index] << '\n';
-
-				return;
+				*/
+				std::cout << "Value " << index << '\n';
 			}
 		}
 	}
@@ -278,7 +298,6 @@ void ClickTile(Point2f MousePoint)
 
 void DrawGrid()
 {
-	
 	for (int row{ 0 }; row < g_Rows; row++)
 	{
 		for (int column{ 0 }; column < g_Colums; column++)
@@ -289,17 +308,19 @@ void DrawGrid()
 			Point2f tileXY{ g_GridPos.x + width, g_GridPos.y + height }; //bottomleft Point of each individual tile
 			Rectf zeroMine{ tileXY.x, tileXY.y, textureLenght , textureLenght }; //Rect of each individual tile
 			int index{ GetIndex(row, column, g_Colums) }; // gets the tile index
-			if (!g_pGrid[index]){
+			if (!g_Grid[index]){
 				DrawTexture(g_TileTextures[0], zeroMine); // if its not clicked, stays as original, Tile 0
 			}
-			else if (g_pGrid[index]) {
-					if (g_pGrid[index] != g_BombPositionArray[index]) {
+			/*
+						else if (g_Grid[index]) {
+					if (g_Grid[index] != g_BombPositionArray[index]) {
 						DrawTexture(g_TileTextures[1], zeroMine);
 					}
-					else if(g_pGrid[index] == g_BombPositionArray[index]){
+					else if(g_Grid[index] == g_BombPositionArray[index]){
 						DrawTexture(g_TileTextures[6], zeroMine); // if it is clicked Draws this texture. Here we have to implemente a function to check if the tile pressed was a bom or otherwise to change texture based on it
 					}
 			}
+			*/
 		}
 	}
 }

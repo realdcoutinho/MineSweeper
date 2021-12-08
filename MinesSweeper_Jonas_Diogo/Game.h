@@ -54,10 +54,17 @@ Point2f g_GridPos{g_Border, g_Border};
 Rectf g_GridRect{ g_GridPos.x, g_GridPos.y, g_TileSize, g_TileSize };
 
 //Arrays
-int g_pGrid[g_ArraySize]{};
 Texture g_TileTextures[12]{}; // the size of this array is a random one. 12 doesnt mean anything, just trying to test
 Texture g_TextTexture[10]{}; //Arrau for the text textures. the size was completily random. just a test
+
+int g_Grid[g_ArraySize]{};
 int g_BombPositionArray[g_nrBombs]{};
+int g_NrFlags[g_ArraySize]{};
+
+//bools
+
+
+
 
 // Declare your own functions here
 void AddingTimeTexture();// Creates the time texture
@@ -71,8 +78,10 @@ void DrawBom();
 void PrintArray(int* pArray, int size);
 
 
+//void CheckPosition(int row, int colums, int *pArray, Point2f mouse);
 
-void ClickTile(Point2f MousePoint); // checks which Tile was pressed
+
+void ClickTile(Point2f MousePoint, int* pArray); // checks which Tile was pressed
 void DrawGrid(); //Draws the Tiles Including the pressed ones
 int GetIndex(int rowIndex, int columnIndex, int nrOfColumns); // gets the index for the tile position
 //void DrawGrid(const float rows, const float cols, int* pArray);
