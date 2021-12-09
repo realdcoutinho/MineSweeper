@@ -1,2 +1,2 @@
-C:\Users\diogo\Documents\GitHub\MineSweeper\MinesSweeper\Debug\MinesSweeper.exe
 C:\Users\vanco\OneDrive\Documenten\GitHub\MineSweeper\MinesSweeper\Debug\MinesSweeper.exe
+C:\Users\diogo\Documents\GitHub\MineSweeper\MinesSweeper\Debug\MinesSweeper.exe
