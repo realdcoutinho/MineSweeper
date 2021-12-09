@@ -7,7 +7,7 @@ std::string g_WindowTitle{ "Project name - Name, firstname - 1DAExx" };
 
 //Game Settings
 const int g_Rows{ 10 };
-const int g_Colums{ 10 };
+const int g_Colums{ g_Rows };
 const int g_GridSize{ g_Rows * g_Colums };
  
 // Change the window dimensions here
@@ -57,6 +57,8 @@ bool g_TileArray[g_GridSize]{};
 //bool g_TileArrayOverlay[g_GridSize]{};
 
 MSTile tiles[g_GridSize]{};
+
+
 
 int g_BombLocation[g_NrBombs];
 
