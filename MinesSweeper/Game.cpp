@@ -220,13 +220,25 @@ void SetNumbers()
 			if (tiles[index].HasBomb) {
 
 				int indexOffSets[]={ -11, -10, -9, -1, 1, 9, 10, 11 };
+			
 				int size = sizeof(indexOffSets) / sizeof(int);
 				std::cout << '\n' <<"Size: " << size << '\n';
 				for (int i{}; i < size; ++i) {
 					int j{ indexOffSets[i] };
-
+					//int k{ testIndex[i] };
 					//bool IsValid{ (row >= 0) && (row < g_Rows) && (column >= 0) && (column < g_Colums) };
-
+					for (int k{ 0 }; k < size; k+=g_Rows)
+					{
+						if (index + j == g_Rows - 1+k)
+						{
+							tiles[index + (g_Rows-1)].Number -= 1;
+						}
+						if (index + j == 0 + k)
+						{
+							tiles[index].Number -= 1;
+						}
+					}
+					
 					if (index + j >= 0 && index + j <= 99) {
 						tiles[index + j].Number += 1;
 					}
