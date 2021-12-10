@@ -54,6 +54,7 @@ void OnMouseMotionEvent(const SDL_MouseMotionEvent& e)
 	//std::cout << "  [" << e.x << ", " << e.y << "]\n";
 	Point2f mousePos{ float(e.x), float(g_WindowHeight - e.y) };
 	//ToggleTile(mousePos, g_Rows, g_Colums, g_TileArray);
+	ClickTile(mousePos, g_Rows, g_Colums, g_TileArray);
 
 }
 
@@ -66,7 +67,6 @@ void OnMouseDownEvent(const SDL_MouseButtonEvent& e)
 	{
 	case SDL_BUTTON_LEFT:
 	{
-		ClickTile(mousePos, g_Rows, g_Colums, g_TileArray);
 
 		break;
 	}
