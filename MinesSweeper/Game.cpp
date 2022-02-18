@@ -276,6 +276,7 @@ void TwoDArrays(const int rows, const int columns, MSTile* pArray)
 		}
 	}
 	Print2DElements(pArray, rows, columns);
+	std::cout << "YOO";
 }
 
 void Print2DElements(MSTile* pArray, int rows, int columns)
@@ -289,6 +290,7 @@ void Print2DElements(MSTile* pArray, int rows, int columns)
 		}
 		std::cout << std::endl;
 	}
+
 }
 
 int GetIndex(int rowIndex, int columnIndex, int nrOfColumns)
